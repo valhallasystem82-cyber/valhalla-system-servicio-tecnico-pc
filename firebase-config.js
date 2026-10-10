@@ -1,10 +1,11 @@
-// Pegá aquí la configuración de tu proyecto Firebase.
-export const firebaseConfig = {
-  apiKey: "PEGAR_API_KEY",
-  authDomain: "TU_PROYECTO.firebaseapp.com",
-  projectId: "TU_PROYECTO",
-  storageBucket: "TU_PROYECTO.firebasestorage.app",
-  messagingSenderId: "PEGAR_ID",
-  appId: "PEGAR_APP_ID"
+// Configuración Firebase de Valhalla System
+window.VALHALLA_FIREBASE = {
+  apiKey: "AIzaSyC3mhmuikhs0VOiotKGIJTMT0WgwHkAfEA",
+  authDomain: "valhalla-system-pagina-tecnica.firebaseapp.com",
+  databaseURL: "https://valhalla-system-pagina-tecnica-default-rtdb.firebaseio.com",
+  projectId: "valhalla-system-pagina-tecnica",
+  storageBucket: "valhalla-system-pagina-tecnica.firebasestorage.app",
+  messagingSenderId: "561904087660",
+  appId: "1:561904087660:web:6eeccaac0dc473ba1e5e49",
+  measurementId: "G-T1P0G3B8FT"
 };
-export const firebaseReady = !firebaseConfig.apiKey.startsWith('PEGAR_');
