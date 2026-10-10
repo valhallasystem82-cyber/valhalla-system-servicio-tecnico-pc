@@ -6,10 +6,19 @@ let CLOUD_DATA=null;
 function normalizeData(source){
  const merged=Object.assign(cloneSiteData(window.DEFAULT_DATA),source||{});
  ['services','products','systems','gallery'].forEach(k=>{
-   if(Array.isArray(merged[k])) merged[k]=merged[k].filter(x=>{
-     const t=String(x?.title||'').trim().toLowerCase(), d=String(x?.text||'').trim().toLowerCase();
-     return !(t==='nuevo' && (d===''||d==='descripción'||d==='descripcion'));
-   });
+   if(Array.isArray(merged[k])) {
+     merged[k]=merged[k].filter(x=>{
+       const t=String(x?.title||'').trim().toLowerCase(), d=String(x?.text||'').trim().toLowerCase();
+       return !(t==='nuevo' && (d===''||d==='descripción'||d==='descripcion'));
+     });
+     // Si la tarjeta ya tiene fotos principales, la foto de icono deja de usarse.
+     // La limpiamos también en el admin para que no vuelva a aparecer al recargar.
+     merged[k].forEach(x=>{
+       const photos=Array.isArray(x?.images)?x.images.filter(Boolean):[];
+       if(x?.image && !photos.includes(x.image)) photos.unshift(x.image);
+       if(photos.length) x.iconImage='';
+     });
+   }
  });
  merged.services=Array.isArray(merged.services)?merged.services:[];
  const ps=merged.services.find(x=>String(x?.id||'')==='power-shock'||/power\s*shock/i.test(String(x?.title||'')));
