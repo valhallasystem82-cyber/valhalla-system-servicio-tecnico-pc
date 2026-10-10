@@ -9,7 +9,7 @@ window.DEFAULT_DATA={
  {id:'almacenamiento',title:'Almacenamiento',icon:'💾',image:'',text:'SSD SATA, SSD M.2 NVMe y HDD mecánicos.',href:'almacenamiento.html'},
  {id:'sistemas',title:'Sistemas',icon:'💻',image:'',text:'Software y soluciones desarrolladas a medida.',href:'sistemas.html'},
  {id:'reciclaje',title:'Reciclaje Tecnológico',icon:'♻️',image:'',text:'Recepción, recuperación y reutilización responsable de equipos.',href:'reciclaje.html'},
- {id:'power-shock',title:'Reparación y colocación de placas Power Shock y cercos eléctricos',icon:'⚡',iconImage:'assets/power-shock.jpg',image:'assets/power-shock.jpg',text:'Reparación, colocación y diagnóstico de placas Power Shock, energizadores y sistemas de cercos eléctricos.',href:'power-shock.html'}],
+ {id:'power-shock',title:'Reparación y colocación de placas Power Shock y cercos eléctricos',icon:'⚡',iconImage:'assets/power-shock.jpg',image:'',text:'Reparación, colocación y diagnóstico de placas Power Shock, energizadores y sistemas de cercos eléctricos.',href:'power-shock.html'}],
  products:[
  {title:'PC Gamer',image:'',text:'Equipos armados a medida.'},{title:'Notebooks',image:'',text:'Equipos y servicio técnico.'},{title:'Cámaras IP',image:'',text:'Interior y exterior.'},{title:'Consolas',image:'',text:'Equipos, accesorios y servicio.'},{title:'Componentes',image:'',text:'Placas, procesadores, RAM y más.'},{title:'Almacenamiento',image:'',text:'SSD SATA · SSD M.2 NVMe · HDD mecánico.'}],
  outlet:[

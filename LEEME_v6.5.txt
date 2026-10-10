@@ -1,0 +1,1 @@
+v6.5: iconImage se usa solo en las tarjetas de Inicio. images/image se usan solo dentro de la pagina propia (Ver mas). Nunca se mezclan.

@@ -16,9 +16,9 @@ function normalizeData(source){
  });
  merged.services=Array.isArray(merged.services)?merged.services:[];
  const ps=merged.services.find(x=>String(x?.id||'')==='power-shock'||/power\s*shock/i.test(String(x?.title||'')));
- const power={id:'power-shock',title:'Reparación y colocación de placas Power Shock y cercos eléctricos',icon:'⚡',iconImage:'assets/power-shock.jpg',image:'assets/power-shock.jpg',text:'Reparación, colocación y diagnóstico de placas Power Shock, energizadores y sistemas de cercos eléctricos.',href:'power-shock.html'};
- if(ps){ if(!ps.href) ps.href='power-shock.html'; if(!ps.text||/pc|notebook/i.test(ps.text)) ps.text=power.text; }
- else merged.services.push({...power,images:[power.image]});
+ const power={id:'power-shock',title:'Reparación y colocación de placas Power Shock y cercos eléctricos',icon:'⚡',iconImage:'assets/power-shock.jpg',image:'',text:'Reparación, colocación y diagnóstico de placas Power Shock, energizadores y sistemas de cercos eléctricos.',href:'power-shock.html'};
+ if(ps){ if(!ps.href) ps.href='power-shock.html'; if(!ps.text||/pc|notebook/i.test(ps.text)) ps.text=power.text; if(ps.image==='assets/power-shock.jpg'){ ps.image=''; if(Array.isArray(ps.images)) ps.images=ps.images.filter(x=>x!=='assets/power-shock.jpg'); } }
+ else merged.services.push({...power,images:[]});
  return merged;
 }
 window.getSiteData=()=>normalizeData(CLOUD_DATA||{});
