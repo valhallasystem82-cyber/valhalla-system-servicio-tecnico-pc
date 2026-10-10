@@ -6,9 +6,7 @@ window.addEventListener("valhalla-ready",()=>{
   const h=document.querySelector('.content2 h2'); if(h)h.textContent=s.title||h.textContent;
   const visual=document.querySelector('.content2 .visual');
   if(visual){
-    const a=Array.isArray(s.images)?s.images.filter(Boolean):[];
-    if(s.image&&!a.includes(s.image))a.unshift(s.image);
-    if(a.length){visual.innerHTML=`<button class="pic picButton" style="width:100%;height:100%;border:0;background:transparent" type="button"><img src="${a[0]}" alt="${s.title||''}" style="width:100%;height:100%;object-fit:contain"><span class="photoCount">📷 ${a.length}</span></button>`;visual.querySelector('button').onclick=()=>openGallery(a,0);}
+    if(s.iconImage){visual.innerHTML=`<img src="${s.iconImage}" alt="${s.title||''}" style="width:100%;height:100%;object-fit:contain">`;}
     else visual.textContent=s.icon||'⚡';
   }
   if(typeof ask!=='undefined')ask.href=WA;if(typeof ask2!=='undefined')ask2.href=WA;
