@@ -11,13 +11,7 @@ function normalizeData(source){
        const t=String(x?.title||'').trim().toLowerCase(), d=String(x?.text||'').trim().toLowerCase();
        return !(t==='nuevo' && (d===''||d==='descripción'||d==='descripcion'));
      });
-     // Si la tarjeta ya tiene fotos principales, la foto de icono deja de usarse.
-     // La limpiamos también en el admin para que no vuelva a aparecer al recargar.
-     merged[k].forEach(x=>{
-       const photos=Array.isArray(x?.images)?x.images.filter(Boolean):[];
-       if(x?.image && !photos.includes(x.image)) photos.unshift(x.image);
-       if(photos.length) x.iconImage='';
-     });
+
    }
  });
  merged.services=Array.isArray(merged.services)?merged.services:[];
@@ -48,7 +42,7 @@ function setupCommon(){
  const F=document.getElementById('siteFooter'); if(F) F.innerHTML=`<div><img class="footerLogo" src="${D.settings.logo||'assets/logo.png'}"><div>${D.settings.tagline}</div></div><div><b>Enlaces</b><br><a href="servicio-tecnico.html">Servicios</a> · <a href="productos.html">Productos</a> · <a href="outlet.html">Tienda Outlet</a><br><a href="sistemas.html">Sistemas</a> · <a href="reciclaje.html">Reciclaje</a> · <a href="sponsors.html">Sponsors</a></div><div><b>Contacto</b><br>${D.settings.phone||'WhatsApp a configurar'}<br>${D.settings.email||'Email a configurar'}<br>${D.settings.zone}</div><div><a href="admin.html">Administración</a></div>`;
 }
 function imgs(c){let a=Array.isArray(c.images)?c.images.filter(Boolean):[];if(c.image&&!a.includes(c.image))a.unshift(c.image);return a}
-window.card=function(c){let a=imgs(c),first=a[0]||'',iconVisual=c.iconImage?`<img class="iconPhoto" src="${c.iconImage}" alt="">`:(c.icon||'⚡');return `<article class="card">${first?`<button class="pic picButton" type="button" onclick='openGallery(${JSON.stringify(a)},0)' aria-label="Abrir fotos"><img src="${first}" alt="${String(c.title||'').replaceAll('"','&quot;')}">${a.length>1?`<span class="photoCount">📷 ${a.length}</span>`:''}</button>`:`<div class="pic">${iconVisual}</div>`}<div class="body"><h3>${c.title}</h3><p>${c.text}</p>${c.href?`<a class="more" href="${c.href}">Ver más →</a>`:''}</div></article>`};
+window.card=function(c){let iconVisual=c.iconImage?`<img class="iconPhoto" src="${c.iconImage}" alt="${String(c.title||'').replaceAll('"','&quot;')}">`:(c.icon||'⚡');return `<article class="card"><div class="pic">${iconVisual}</div><div class="body"><h3>${c.title}</h3><p>${c.text}</p>${c.href?`<a class="more" href="${c.href}">Ver más →</a>`:''}</div></article>`};
 window.openGallery=function(arr,start=0){if(!arr||!arr.length)return;let i=start,ov=document.getElementById('photoLightbox');if(!ov){ov=document.createElement('div');ov.id='photoLightbox';ov.className='lightbox';document.body.appendChild(ov)}function draw(){ov.innerHTML=`<button class="lbClose">×</button><button class="lbPrev">‹</button><img src="${arr[i]}" alt="Foto ampliada"><button class="lbNext">›</button><div class="lbCount">${i+1} / ${arr.length}</div>`;ov.classList.add('show');ov.querySelector('.lbClose').onclick=()=>ov.classList.remove('show');ov.querySelector('.lbPrev').onclick=()=>{i=(i-1+arr.length)%arr.length;draw()};ov.querySelector('.lbNext').onclick=()=>{i=(i+1)%arr.length;draw()}}draw();ov.onclick=e=>{if(e.target===ov)ov.classList.remove('show')}};
 window.addEventListener('keydown',e=>{let ov=document.getElementById('photoLightbox');if(ov?.classList.contains('show')&&e.key==='Escape')ov.classList.remove('show')});
 
