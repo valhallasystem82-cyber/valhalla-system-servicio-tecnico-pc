@@ -1,1 +1,17 @@
-<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Almacenamiento | Valhalla System</title><link rel="stylesheet" href="style.css"></head><body><header id="siteHeader"></header><main><section class="pageHero"><div><h1>Almacenamiento</h1><p>Soluciones de almacenamiento para PC, notebooks y videovigilancia.</p></div></section><section class="light"><h2 class="sectionTitle">¿Qué ofrecemos?</h2><div class="content2"><div><h2>Almacenamiento</h2><div class="list">✓ SSD SATA.<br>✓ SSD M.2 NVMe.<br>✓ HDD / discos mecánicos.<br>✓ Discos para DVR/NVR.<br>✓ Instalación y clonación.<br>✓ Migración y recuperación de datos.</div><div class="actions"><a class="btn" id="ask">Solicitar asesoramiento</a><a class="btn alt" style="color:#0678cf" href="contacto.html">Contacto</a></div></div><div class="visual">💾</div></div></section><section class="cta"><h2>¿Necesitás un presupuesto?</h2><p>Consultanos sin compromiso según tus necesidades.</p><a class="btn" id="ask2">Solicitar por WhatsApp</a></section></main><footer id="siteFooter"></footer><script src="data.js"></script><script src="firebase-config.js"></script><script src="site.js"></script><script>window.addEventListener("valhalla-ready",()=>{ask.href=WA;ask2.href=WA;},{once:true});</script></body></html>
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Almacenamiento | Valhalla System</title><link rel="stylesheet" href="style.css"></head><body><header id="siteHeader"></header><main><section class="pageHero"><div><h1>Almacenamiento</h1><p>Soluciones de almacenamiento para PC, notebooks y videovigilancia.</p></div></section><section class="light"><h2 class="sectionTitle">¿Qué ofrecemos?</h2><div class="content2"><div><h2>Almacenamiento</h2><div class="list">✓ SSD SATA.<br>✓ SSD M.2 NVMe.<br>✓ HDD / discos mecánicos.<br>✓ Discos para DVR/NVR.<br>✓ Instalación y clonación.<br>✓ Migración y recuperación de datos.</div><div class="actions"><a class="btn" id="ask">Solicitar asesoramiento</a><a class="btn alt" style="color:#0678cf" href="contacto.html">Contacto</a></div></div><div class="visual">💾</div></div></section><section class="cta"><h2>¿Necesitás un presupuesto?</h2><p>Consultanos sin compromiso según tus necesidades.</p><a class="btn" id="ask2">Solicitar por WhatsApp</a></section></main><footer id="siteFooter"></footer><script src="data.js"></script><script src="firebase-config.js"></script><script src="site.js"></script><script>
+window.addEventListener("valhalla-ready",()=>{
+  const id="almacenamiento";
+  const s=(D.services||[]).find(x=>String(x.id||"")===id);
+  if(!s)return;
+  const h=document.querySelector('.content2 h2'); if(h)h.textContent=s.title||h.textContent;
+  const visual=document.querySelector('.content2 .visual');
+  if(visual){
+    const a=Array.isArray(s.images)?s.images.filter(Boolean):[];
+    if(s.image&&!a.includes(s.image))a.unshift(s.image);
+    if(a.length){visual.innerHTML=`<button class="pic picButton" style="width:100%;height:100%;border:0;background:transparent" type="button"><img src="${a[0]}" alt="${s.title||''}" style="width:100%;height:100%;object-fit:contain"><span class="photoCount">📷 ${a.length}</span></button>`;visual.querySelector('button').onclick=()=>openGallery(a,0);}
+    else if(s.iconImage) visual.innerHTML=`<img src="${s.iconImage}" alt="" style="max-width:100%;max-height:100%;object-fit:contain">`;
+    else visual.textContent=s.icon||'⚡';
+  }
+  if(typeof ask!=='undefined')ask.href=WA;if(typeof ask2!=='undefined')ask2.href=WA;
+},{once:true});
+</script></body></html>
