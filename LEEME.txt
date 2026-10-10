@@ -1,0 +1,31 @@
+VALHALLA SYSTEM V2
+
+1) Abrí index.html para ver la web completa.
+2) Abrí admin.html para editarla.
+3) La primera vez, admin.html te pedirá crear una clave local (mínimo 6 caracteres).
+4) Desde ADMIN podés editar logo, fondo, colores, textos, iconos, servicios, productos, sistemas, galería y contacto.
+5) Esta versión funciona directamente desde la carpeta, sin servidor, para que puedas probarla.
+6) Los cambios locales se guardan en el navegador de esa PC (localStorage).
+7) Para publicar de verdad y administrar desde cualquier PC/celular, el siguiente paso es conectar Firebase Authentication + Firestore + Storage.
+
+PÁGINAS:
+- index.html
+- servicio-tecnico.html
+- camaras.html
+- consolas.html
+- hardware.html
+- almacenamiento.html
+- productos.html
+- sistemas.html
+- reciclaje.html
+- galeria.html
+- contacto.html
+- admin.html
+
+
+V5 CAMBIOS:
+- Fotos múltiples por servicio/producto/sistema/galería/outlet/sponsor.
+- Primera foto = portada; clic abre visor grande con anterior/siguiente.
+- Fotos adaptadas al cuadro sin recorte (object-fit contain).
+- Tipografía de tarjetas reducida.
+- Colores editables: principal, secundario, fondo oscuro, tarjetas, texto, fondo claro, texto claro y barra superior.
