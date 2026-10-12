@@ -11,9 +11,64 @@ async function imageToDataURL(file,maxSide=1200,quality=.72){
  return new Promise((resolve,reject)=>{const r=new FileReader();r.onerror=reject;r.onload=()=>{const im=new Image();im.onerror=reject;im.onload=()=>{let w=im.width,h=im.height,scale=Math.min(1,maxSide/Math.max(w,h));w=Math.max(1,Math.round(w*scale));h=Math.max(1,Math.round(h*scale));const c=document.createElement('canvas');c.width=w;c.height=h;c.getContext('2d').drawImage(im,0,0,w,h);resolve(c.toDataURL('image/jpeg',quality))};im.src=r.result};r.readAsDataURL(file)})
 }
 
-function boot(){const has=localStorage.getItem('valhallaAdminPass');if(!has)return setup();login()}
-function setup(){root.innerHTML=`<div class="login"><img src="assets/logo.png"><h2>Crear clave de administrador</h2><p>Clave local de prueba. Al publicar se reemplaza por Firebase Authentication.</p><form id="f"><div class="field"><label>Nueva clave</label><input id="p1" type="password" minlength="6" required></div><div class="field"><label>Repetir clave</label><input id="p2" type="password" minlength="6" required></div><button class="btn" style="width:100%">Crear clave</button><div id="err" class="small"></div></form></div>`;f.onsubmit=e=>{e.preventDefault();if(p1.value!==p2.value)return err.textContent='Las claves no coinciden.';localStorage.setItem('valhallaAdminPass',p1.value);renderAdmin()}}
-function login(){root.innerHTML=`<div class="login"><img src="assets/logo.png"><h2>Administración</h2><form id="f"><div class="field"><label>Clave</label><input id="pass" type="password" required></div><button class="btn" style="width:100%">Ingresar</button><div id="err" class="small"></div></form><p class="small">Modo local de prueba. La versión publicada usará Firebase Authentication.</p></div>`;f.onsubmit=e=>{e.preventDefault();if(pass.value===localStorage.getItem('valhallaAdminPass'))renderAdmin();else err.textContent='Clave incorrecta.'}}
+// LOGIN ADMIN CON FIREBASE
+if (!firebase.apps.length) {
+  firebase.initializeApp(window.firebaseConfig);
+}
+
+const auth = firebase.auth();
+
+function boot(){
+  auth.onAuthStateChanged(user=>{
+    if(user){
+      renderAdmin();
+    }else{
+      login();
+    }
+  });
+}
+
+function setup(){
+  login();
+}
+
+function login(){
+  root.innerHTML=`
+    <div class="login">
+      <img src="assets/logo.png">
+      <h2>Administración</h2>
+      <form id="f">
+        <div class="field">
+          <label>Correo</label>
+          <input id="email" type="email" required>
+        </div>
+
+        <div class="field">
+          <label>Contraseña</label>
+          <input id="pass" type="password" required>
+        </div>
+
+        <button class="btn" style="width:100%">Ingresar</button>
+        <div id="err" class="small"></div>
+      </form>
+    </div>
+  `;
+
+  f.onsubmit=async e=>{
+    e.preventDefault();
+    err.textContent='Ingresando...';
+
+    try{
+      await auth.signInWithEmailAndPassword(
+        email.value.trim(),
+        pass.value
+      );
+    }catch(error){
+      console.error(error);
+      err.textContent='Correo o contraseña incorrectos.';
+    }
+  };
+}
 const field=(lab,id,val,type='text')=>`<div class="field"><label>${lab}</label>${type==='textarea'?`<textarea id="${id}" rows="4">${esc(val)}</textarea>`:`<input id="${id}" type="${type}" value="${esc(val)}">`}</div>`;
 const yesNo=(lab,id,val)=>`<div class="field"><label>${lab}</label><select id="${id}"><option value="1" ${val!==false?'selected':''}>Sí</option><option value="0" ${val===false?'selected':''}>No</option></select></div>`;
 function upload(label,key,sub,current){let obj=key==='settings'?null:data[key]?.[+sub], arr=obj?(Array.isArray(obj.images)?obj.images.filter(Boolean):[]):[];if(key==='settings')return `<div class="field"><label>${label}</label>${current?`<img class="thumb" src="${current}">`:''}<input class="uploader" type="file" accept="image/*" data-key="${key}" data-sub="${sub}"><span class="small">Podés reemplazar esta imagen desde acá.</span></div>`;return `<div class="field"><label>${label} (podés elegir varias)</label><div class="adminPhotos">${arr.map((im,j)=>`<div class="adminPhoto"><img src="${im}"><button type="button" class="removePhoto" data-key="${key}" data-sub="${sub}" data-photo="${j}">×</button></div>`).join('')}</div><input class="uploader multiUploader" type="file" accept="image/*" multiple data-key="${key}" data-sub="${sub}"><span class="small">Seleccioná una o varias fotos. Estas fotos aparecen en la tarjeta de Inicio. La primera será la portada. No se usan dentro de la página propia.</span></div>`}
@@ -56,4 +111,11 @@ function bind(){
  document.querySelectorAll('.delSponsor').forEach(b=>b.onclick=async()=>{sync();data.sponsors.splice(+b.dataset.i,1);await saveSiteData(data);renderAdmin()});
 }
 async function saveAll(){sync();msg.innerHTML='<div class="status">Guardando en Firebase...</div>';try{await saveSiteData(data);msg.innerHTML='<div class="status">✓ Cambios guardados online en Firebase. Ya quedan disponibles para PC y celular.</div>'}catch(e){console.error(e);msg.innerHTML='<div class="status">No se pudo guardar en Firebase. Revisá Internet y las reglas de Realtime Database.</div>'}}
+// CERRAR SESION CON FIREBASE
+document.addEventListener('click', async function(e){
+  if(e.target && e.target.id === 'logout'){
+    e.preventDefault();
+    await auth.signOut();
+  }
+}, true);
 boot();
