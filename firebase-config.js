@@ -1,5 +1,5 @@
 // Configuración Firebase de Valhalla System
-window.firebaseConfig = {
+window.VALHALLA_FIREBASE = {
   apiKey: "AIzaSyC3mhmuikhs0VOiotKGIJTMT0WgwHkAfEA",
   authDomain: "valhalla-system-pagina-tecnica.firebaseapp.com",
   databaseURL: "https://valhalla-system-pagina-tecnica-default-rtdb.firebaseio.com",
