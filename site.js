@@ -41,11 +41,7 @@ function setupCommon(){
  const H=document.getElementById('siteHeader'); if(H) H.innerHTML=`<a class="brand" href="index.html"><img src="${D.settings.logo||'assets/logo.png'}"></a><button class="menuBtn" onclick="document.querySelector('.mainNav').classList.toggle('open')">☰</button><nav class="mainNav">${nav.map(n=>`<a href="${n[0]}">${n[1]}</a>`).join('')}</nav><a class="wa" href="${WA}">WhatsApp</a>`;
  const F=document.getElementById('siteFooter'); if(F) F.innerHTML=`<div><img class="footerLogo" src="${D.settings.logo||'assets/logo.png'}"><div>${D.settings.tagline}</div></div><div><b>Enlaces</b><br><a href="servicio-tecnico.html">Servicios</a> · <a href="productos.html">Productos</a> · <a href="outlet.html">Tienda Outlet</a><br><a href="sistemas.html">Sistemas</a> · <a href="reciclaje.html">Reciclaje</a> · <a href="sponsors.html">Sponsors</a></div><div><b>Contacto</b><br>${D.settings.phone||'WhatsApp a configurar'}<br>${D.settings.email||'Email a configurar'}<br>${D.settings.zone}</div><div><a href="admin.html">Administración</a></div>`;
  const currentPage=(location.pathname.split('/').pop()||'index.html').toLowerCase();
- let currentService=(D.services||[]).find(x=>String(x.href||'').toLowerCase()===currentPage);
- // Compatibilidad: Reciclaje de versiones anteriores puede estar guardado sin href.
- if(!currentService && currentPage==='reciclaje.html'){
-   currentService=(D.services||[]).find(x=>/reciclaje/i.test(String(x.title||'')));
- }
+ const currentService=(D.services||[]).find(x=>String(x.href||'').toLowerCase()===currentPage);
  const serviceVisual=document.querySelector('.content2 .visual');
  if(serviceVisual&&currentService){
    if(currentService.iconImage){serviceVisual.innerHTML=`<img src="${currentService.iconImage}" alt="${String(currentService.title||'Servicio').replaceAll('\"','&quot;')}" style="width:100%;height:100%;object-fit:cover;display:block">`;}

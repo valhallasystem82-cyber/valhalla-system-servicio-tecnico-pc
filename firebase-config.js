@@ -9,3 +9,6 @@ window.VALHALLA_FIREBASE = {
   appId: "1:561904087660:web:6eeccaac0dc473ba1e5e49",
   measurementId: "G-T1P0G3B8FT"
 };
+
+// Alias usado por admin.js
+window.firebaseConfig = window.VALHALLA_FIREBASE;
