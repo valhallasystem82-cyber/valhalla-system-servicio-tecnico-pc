@@ -25,8 +25,27 @@ window.getSiteData=()=>normalizeData(CLOUD_DATA||{});
 window.saveSiteData=async function(d){
  CLOUD_DATA=cloneSiteData(d);
  try{localStorage.setItem('valhallaData',JSON.stringify(d))}catch(e){}
- const r=await fetch(FB_URL,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)});
- if(!r.ok) throw new Error('Firebase '+r.status);
+
+ // Las reglas de Realtime Database permiten escribir solamente al administrador.
+ // Cuando estamos en admin.html enviamos el token de Firebase Authentication
+ // junto con el PUT. Las páginas públicas siguen pudiendo leer sin iniciar sesión.
+ let url=FB_URL;
+ try{
+   if(window.firebase && firebase.auth){
+     const user=firebase.auth().currentUser;
+     if(user){
+       const token=await user.getIdToken();
+       url += (url.includes('?')?'&':'?')+'auth='+encodeURIComponent(token);
+     }
+   }
+ }catch(e){console.warn('No se pudo obtener el token de Firebase Auth',e)}
+
+ const r=await fetch(url,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)});
+ if(!r.ok){
+   let detail='';
+   try{detail=await r.text()}catch(e){}
+   throw new Error('Firebase '+r.status+(detail?' - '+detail:''));
+ }
  return true;
 };
 
