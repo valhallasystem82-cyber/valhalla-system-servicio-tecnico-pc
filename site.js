@@ -40,6 +40,18 @@ window.saveSiteData=async function(d){
    }
  }catch(e){console.warn('No se pudo obtener el token de Firebase Auth',e)}
 
+ // En el administrador usamos el SDK de Realtime Database. Así Firebase
+ // adjunta la sesión autenticada automáticamente y las reglas reciben auth.uid.
+ if(window.firebase && firebase.apps.length && firebase.database && firebase.auth().currentUser){
+   try{
+     await firebase.database().ref('valhallaSite').set(d);
+     return true;
+   }catch(e){
+     console.error('Firebase Database SDK:',e);
+     throw new Error('Firebase no permitió guardar: '+(e.code||e.message||e));
+   }
+ }
+
  const r=await fetch(url,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)});
  if(!r.ok){
    let detail='';
